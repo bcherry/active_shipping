@@ -258,6 +258,8 @@ module ActiveShipping
                 end
               end
             end
+
+            yield xml if block_given?
           end
         end
       end
