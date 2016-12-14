@@ -259,10 +259,10 @@ module ActiveShipping
                     xml.OptionType(SIGNATURE_OPTION_CODES[package.options[:signature_option] || :default_for_service])
                   end
                 end
+
+                yield xml if block_given?
               end
             end
-
-            yield xml if block_given?
           end
         end
       end
