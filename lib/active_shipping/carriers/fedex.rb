@@ -177,7 +177,10 @@ module ActiveShipping
       packages = Array(packages)
       raise Error, "Multiple packages are not supported yet." if packages.length > 1
 
-      request = build_shipment_request(origin, destination, packages, options)
+      request = build_shipment_request(origin, destination, packages, options) do |xml|
+        yield xml if block_given?
+      end
+
       logger.debug(request) if logger
 
       response = commit(save_request(request), (options[:test] || false))
@@ -193,8 +196,6 @@ module ActiveShipping
 
     def build_shipment_request(origin, destination, packages, options = {})
       imperial = location_uses_imperial(origin)
-
-      yield if block_given?
 
       xml_builder = Nokogiri::XML::Builder.new do |xml|
         xml.ProcessShipmentRequest(xmlns: 'http://fedex.com/ws/ship/v13') do
