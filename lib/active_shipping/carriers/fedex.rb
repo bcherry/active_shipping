@@ -233,6 +233,8 @@ module ActiveShipping
               xml.LabelStockType(options[:label_stock_type] || DEFAULT_LABEL_STOCK_TYPE)
             end
 
+            yield xml if block_given?
+
             xml.RateRequestTypes('ACCOUNT')
 
             xml.PackageCount(packages.size)
@@ -261,8 +263,6 @@ module ActiveShipping
                 end
               end
             end
-
-            yield xml if block_given?
           end
         end
       end
