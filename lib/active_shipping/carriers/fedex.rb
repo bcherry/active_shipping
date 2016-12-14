@@ -231,9 +231,10 @@ module ActiveShipping
               xml.LabelFormatType('COMMON2D')
               xml.ImageType(options[:label_format] || 'PNG')
               xml.LabelStockType(options[:label_stock_type] || DEFAULT_LABEL_STOCK_TYPE)
+              if options[:label_customer_detail]
+                xml.CustomerSpecifiedDetail(options[:label_customer_detail])
+              end
             end
-
-            yield xml if block_given?
 
             xml.RateRequestTypes('ACCOUNT')
 
