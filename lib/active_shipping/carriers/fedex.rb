@@ -194,6 +194,8 @@ module ActiveShipping
     def build_shipment_request(origin, destination, packages, options = {})
       imperial = location_uses_imperial(origin)
 
+      yield if block_given?
+
       xml_builder = Nokogiri::XML::Builder.new do |xml|
         xml.ProcessShipmentRequest(xmlns: 'http://fedex.com/ws/ship/v13') do
           build_request_header(xml)
